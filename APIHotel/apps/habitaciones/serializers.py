@@ -1,8 +1,20 @@
-from django.contrib.auth.models import User
 from rest_framework import serializers
+from .models import Habitacion
+from ..alojamientos.models import Alojamiento
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class habitacionSerializer(serializers.ModelSerializer):
+    alojamiento = serializers.ReadOnlyField(source='Alojamiento.nombre.nombre_alojamiento')
+
     class Meta:
-        model = User
-        fields = ('url', 'username', 'email')
+        model = Habitacion
+        fields = (  'id',
+                    'nombre',
+                    'descripcion',
+                    'precio',
+                    'numero_personas',
+                    'activo',
+                    'eliminado',
+                    'nombre_alojamiento',
+                    'alojamiento'
+                )

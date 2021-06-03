@@ -1,12 +1,10 @@
-from django.urls import path, include
-from . import views
-from rest_framework import routers
+from django.urls import path
+from .views import listado_habitacion, detalle_habitacion
 
 
-router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
+app_name = "habitaciones"
 
 urlpatterns = [
-    # path('', views.index, name='index')
-    path('', include(router.urls))
+    path('', listado_habitacion.as_view()),
+    path('<int:pk>', detalle_habitacion.as_view())
 ]
