@@ -1,5 +1,6 @@
+from django.db import models
 from rest_framework import serializers
-from .models import Usuarios
+from .models import Usuarios, Group
 
 class usuariosSerializer(serializers.ModelSerializer):
 
@@ -29,3 +30,8 @@ class usuariosSerializer(serializers.ModelSerializer):
                     'telefono',
                     'eliminado',
                 )
+
+class gruposSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= Group
+        fields = '__all__'

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import Group
 
 # Create your models here.
 
@@ -7,7 +8,6 @@ from django.contrib.auth.models import AbstractUser
 class Usuarios(AbstractUser):
     objects: models.Manager()
     direccion = models.CharField(max_length=250)
-    tipo_usuario = models.CharField(max_length=15)
     estado = models.CharField(max_length=10)
     telefono = models.CharField(max_length=9)
     eliminado = models.CharField(max_length=2, default='NO')
