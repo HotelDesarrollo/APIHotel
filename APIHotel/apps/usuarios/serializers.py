@@ -1,6 +1,7 @@
 from django.db import models
 from rest_framework import serializers
 from .models import Usuarios, Group
+from django.contrib.auth.models import Group, Permission
 
 class usuariosSerializer(serializers.ModelSerializer):
 
@@ -25,7 +26,6 @@ class usuariosSerializer(serializers.ModelSerializer):
                     'username',
                     'email',
                     'direccion',
-                    'tipo_usuario',
                     'estado',
                     'telefono',
                     'eliminado',
@@ -34,4 +34,9 @@ class usuariosSerializer(serializers.ModelSerializer):
 class gruposSerializer(serializers.ModelSerializer):
     class Meta:
         model= Group
+        fields = '__all__'
+
+class usuariosgruposSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= Permission
         fields = '__all__'
