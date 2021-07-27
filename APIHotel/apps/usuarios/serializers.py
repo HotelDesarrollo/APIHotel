@@ -29,6 +29,7 @@ class usuariosSerializer(serializers.ModelSerializer):
                     'estado',
                     'telefono',
                     'eliminado',
+                    'groups'
                 )
 
 class gruposSerializer(serializers.ModelSerializer):

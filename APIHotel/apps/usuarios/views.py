@@ -93,9 +93,8 @@ class listado_UsuariosPorGrupos(APIView, Class_query):
         # ----------------------------------------------------------------
 
         # muestro los usuarios segun su grupo, pero falta agregar el campo id 
-        # del grupo en la respuesta y mostrar los usuarios de todos los
-        # grupos existentes, ya que solo muestro los usuarios de un grupo
-        grupo_permisos = Usuarios.objects.filter(groups__name='prueba')
+        # del grupo en la respuesta
+        grupo_permisos = Usuarios.objects.filter(groups__name__in=['prueba', 'prueba2']).order_by('id')
         serializer = usuariosSerializer(grupo_permisos, many=True)
         print(grupo_permisos)
         return Response(dict(usuarios_segun_grupo=serializer.data, detail="not found"))
