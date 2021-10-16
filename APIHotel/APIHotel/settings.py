@@ -67,7 +67,8 @@ from datetime import timedelta
 
 # JWT_AUTH = {
 #     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
-#     'JWT_EXPIRATION_DELTA': timedelta(days=1)
+#     'JWT_EXPIRATION_DELTA': timedelta(days=1),
+#     'JWT_RESPONSE_PAYLOAD_HANDLER': 'apps.usuarios.views.jwt_response_payload_handler'
 # }
 
 

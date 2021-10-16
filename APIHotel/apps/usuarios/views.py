@@ -1,10 +1,12 @@
 from django.contrib.auth.models import Group, Permission
 from django.shortcuts import get_object_or_404
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_jwt import views as jwt_views
 
 from .models import Usuarios, Group
-from .serializers import usuariosSerializer, gruposSerializer, usuariosgruposSerializer
+from .serializers import gruposPermissionSerializer, usuariosSerializer, gruposSerializer, usuariosSerializerPOST
 
 
 class Class_query():
@@ -25,7 +27,7 @@ class listado_usuario(APIView, Class_query):
         usuario = request.data.get('usuarios')
         grupo = usuario.pop('tipo_usuario')
         print(grupo)
-        serializer = usuariosSerializer(data=usuario)
+        serializer = usuariosSerializerPOST(data=usuario)
         if serializer.is_valid(raise_exception=True):
             usuario_saved = serializer.save()
         usuario_saved.groups.add(grupo)
@@ -35,8 +37,10 @@ class listado_usuario(APIView, Class_query):
 class detalle_usuario(APIView, Class_query):
     def get(self, request, pk):
         try:
+
             usuario = Usuarios.objects.get(id=pk)
-            serializer = usuariosSerializer(usuario, many=True)
+            print(usuario)
+            serializer = usuariosSerializer(usuario)
             return Response(dict(usuario=serializer.data))
         except:
             return Response(dict(usuario=[], detail="not found"))
@@ -46,17 +50,17 @@ class detalle_usuario(APIView, Class_query):
             Usuarios.objects.all(), id=pk)
         usuario = request.data.get('usuario')
         print('llego el usuario: ', usuario)
-        serializer = usuariosSerializer(
+        serializer = usuariosSerializerPOST(
             instance=saved_usuario, data=usuario, partial=True)
         if serializer.is_valid(raise_exception=True):
             usuario_saved = serializer.save()
         return Response(dict(success=f"Usuarios '{usuario_saved.username}' actualizado correctamente"))
 
-        def delete(self, request, pk):
-            usuario = get_object_or_404(Usuarios.objects.all(), id=pk)
-            usuario.eliminado = 'SI'
-            usuario_saved = usuario.save()
-            return Response(dict(message=f"Usuario con id `{pk}` fue eliminado."), status=204)
+    def delete(self, request, pk):
+        usuario = get_object_or_404(Usuarios.objects.all(), id=pk)
+        usuario.eliminado = 'SI'
+        usuario_saved = usuario.save()
+        return Response(dict(message=f"Usuario con id `{pk}` fue eliminado."), status=204)
 
 
 class listado_grupos(APIView, Class_query):
@@ -66,21 +70,9 @@ class listado_grupos(APIView, Class_query):
         serializer = gruposSerializer(grupos, many=True)
         return Response(dict(grupos_con_permisos=serializer.data, detail="not found"))
 
+
 class listado_UsuariosPorGrupos(APIView, Class_query):
     def get(self, request):
-        # grupo_permisos  = Usuarios.get_group_permissions()
-        # grupo_permisos = Usuarios.get_all_permissions()
-        # grupo_permisos = Usuarios.objects.filter().first().groups.first().permissions.all()
-        # grupo_permisos = Permission.objects.all().order_by('id') # Obtengo todos los permisos
-        # grupo_permisos = Usuarios.get_group_permissions()
-        # print('grupos:', self.request.Usuarios.groups.all())
-        """
-            get_group_permissions(): devuelve una lista con los permisos que tiene un usuario, 
-            obtenidos a través del grupo o grupos a las que pertenezca.
-
-            <--- Ejemplo --->
-            https://python.hotexamples.com/examples/django.contrib.auth.backends/ModelBackend/get_group_permissions/python-modelbackend-get_group_permissions-method-examples.html
-        """
         # ----------------------------------------------------------------
         # Obtengo todos los permisos que posee el usuario actual, mediante dos consultas
         # separadas, una sobre grupos y otra sobre permisos y los resultados se guardan en group_ids
@@ -92,16 +84,32 @@ class listado_UsuariosPorGrupos(APIView, Class_query):
         # grupo_permisos = group_ids
         # ----------------------------------------------------------------
 
-        # muestro los usuarios segun su grupo, pero falta agregar el campo id 
+        # muestro los usuarios segun su grupo, pero falta agregar el campo id
         # del grupo en la respuesta
-        grupo_permisos = Usuarios.objects.filter(groups__name__in=['prueba', 'prueba2']).order_by('id')
+        grupo_permisos = Usuarios.objects.filter(
+            groups__name__in=['prueba', 'prueba2']).order_by('id')
         serializer = usuariosSerializer(grupo_permisos, many=True)
         print(grupo_permisos)
         return Response(dict(usuarios_segun_grupo=serializer.data, detail="not found"))
-        
-"""
-Para obtener todos los grupos de un usuario, puede hacer esto:
-    user.groups.all()
-para obtener todos los usuarios de un grupo:
-    group.user_set.all()
-"""
+
+
+# class UserLoginViewJWT(jwt_views.ObtainJSONWebToken):
+#     user_serializer_class = usuariosSerializer
+
+#     def post(self, request, *args, **kwargs):
+#         response = super().post(request, *args, **kwargs)
+
+#         if response.status_code == status.HTTP_200_OK:
+#             user = get_user_model().objects.get(
+#                 email=request.data[get_user_model().USERNAME_FIELD])
+#             serialized_user = self.user_serializer_class(user)
+#             response.data.update(serialized_user.data)
+#         return response
+
+def jwt_response_payload_handler(token, user=None, request=None):
+    grupos = gruposPermissionSerializer(user.groups,  many=True)
+    grupos =grupos.data[0]['permissions']
+    return {
+        'token': token,
+        'grupos': grupos
+    }

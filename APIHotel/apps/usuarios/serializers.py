@@ -1,9 +1,40 @@
 from django.db import models
 from rest_framework import serializers
 from .models import Usuarios, Group
-from django.contrib.auth.models import Group, Permission
+from django.contrib.auth.models import Group
+
 
 class usuariosSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Usuarios
+        fields = ('id',
+                    'first_name',
+                    'last_name',
+                    'password',
+                    'username',
+                    'email',
+                    'direccion',
+                    'estado',
+                    'telefono',
+                    'eliminado',
+                    'groups'
+                )
+        depth = 1
+
+
+class gruposSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Group
+        fields = '__all__'
+
+class gruposPermissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Group
+        fields = ['permissions']
+
+
+class usuariosSerializerPOST(serializers.ModelSerializer):
 
     def create(self, validated_data):
         usuario = Usuarios(**validated_data)
@@ -29,15 +60,19 @@ class usuariosSerializer(serializers.ModelSerializer):
                     'estado',
                     'telefono',
                     'eliminado',
-                    'groups'
+                    'groups',
                 )
 
-class gruposSerializer(serializers.ModelSerializer):
-    class Meta:
-        model= Group
-        fields = '__all__'
 
-class usuariosgruposSerializer(serializers.ModelSerializer):
-    class Meta:
-        model= Permission
-        fields = '__all__'
+# class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+#     def validate(self, attrs):
+#         data = super().validate(attrs)
+#         refresh = self.get_token(self.user)
+#         data['refresh'] = str(refresh)
+#         data.pop('refresh', None)  # remove refresh from the payload
+#         data['access'] = str(refresh.access_token)
+
+#         # Add extra responses here
+#         data['user'] = self.user.username
+#         data['groups'] = self.user.groups
+#         return data
