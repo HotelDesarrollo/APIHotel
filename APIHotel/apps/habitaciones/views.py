@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Habitacion
-from .serializers import habitacionSerializer
+from .serializers import habitacionSerializer, habitacionSerializerPOST
 
 
 class Class_query():
@@ -24,7 +24,7 @@ class listado_habitacion(APIView, Class_query):
     def post(self, request):
         habitacion = request.data.get('habitacion')
         print(habitacion)
-        serializer = habitacionSerializer(data=habitacion)
+        serializer = habitacionSerializerPOST(data=habitacion)
         if serializer.is_valid(raise_exception=True):
             habitacion_saved = serializer.save()
         return Response(dict(success=f"Habitacion: '{habitacion_saved.nombre}' creada satisfactoriamente".format()))
@@ -34,7 +34,7 @@ class detalle_habitacion(APIView, Class_query):
     def get(self, request, pk):
         try:
             habitaciones = Habitacion.objects.get(id=pk)
-            serializer = habitacionSerializer(habitaciones)
+            serializer = habitacionSerializerPOST(habitaciones)
             return Response(dict(habitaciones=serializer.data))
         except:
             return Response(dict(habitaciones=[], detail="not found"))
@@ -43,7 +43,7 @@ class detalle_habitacion(APIView, Class_query):
         saved_habitaciones = get_object_or_404(Habitacion.objects.all(), id=pk)
         habitaciones = request.data.get('habitaciones')
         print('llego la habitacion: ', habitaciones)
-        serializer = habitacionSerializer(
+        serializer = habitacionSerializerPOST(
             instance=saved_habitaciones, data=habitaciones, partial=True)
         if serializer.is_valid(raise_exception=True):
             habitacion_saved = serializer.save()

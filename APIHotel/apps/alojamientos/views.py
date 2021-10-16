@@ -15,15 +15,17 @@ class Class_query():
     def get_queryset(self):
         return Alojamiento.objects.all()
 
+
 class listado_alojamiento(APIView, Class_query):
 
     # authentication_classes = (JSONWebTokenAuthentication,)
     # permission_classes = (DjangoModelPermissions,)
-    
+
     def get(self, request):
         try:
-            
-            alojamientos = Alojamiento.objects.filter(eliminado="NO").order_by('id')
+
+            alojamientos = Alojamiento.objects.filter(
+                eliminado="NO").order_by('id')
             serializer = alojamientoSerializer(alojamientos, many=True)
             return Response(dict(alojamiento=serializer.data))
         except:
@@ -52,7 +54,8 @@ class detalle_alojamiento(APIView, Class_query):
             return Response(dict(alojamientos=[], detail="not found"))
 
     def put(self, request, pk):
-        saved_alojamientos = get_object_or_404(Alojamiento.objects.all(), id=pk)
+        saved_alojamientos = get_object_or_404(
+            Alojamiento.objects.all(), id=pk)
         alojamientos = request.data.get('alojamientos')
         print('llego el alojamiento: ', alojamientos)
         serializer = alojamientoSerializer(
