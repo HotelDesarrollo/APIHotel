@@ -1,7 +1,9 @@
+import datetime
 from django.db import models
 from rest_framework import serializers
 from .models import Usuarios, Group
 from django.contrib.auth.models import Group
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
 class usuariosSerializer(serializers.ModelSerializer):
@@ -64,15 +66,15 @@ class usuariosSerializerPOST(serializers.ModelSerializer):
                 )
 
 
-# class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-#     def validate(self, attrs):
-#         data = super().validate(attrs)
-#         refresh = self.get_token(self.user)
-#         data['refresh'] = str(refresh)
-#         data.pop('refresh', None)  # remove refresh from the payload
-#         data['access'] = str(refresh.access_token)
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        grupos = gruposPermissionSerializer(user.groups,  many=True)
+        grupos =grupos.data[0]['permissions']
+        # Add custom claims
+        token['name'] = user.username 
+        token['groups'] = grupos
+        # ...
 
-#         # Add extra responses here
-#         data['user'] = self.user.username
-#         data['groups'] = self.user.groups
-#         return data
+        return token

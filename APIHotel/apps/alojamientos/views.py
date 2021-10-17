@@ -19,7 +19,7 @@ class Class_query():
 class listado_alojamiento(APIView, Class_query):
 
     # authentication_classes = (JSONWebTokenAuthentication,)
-    # permission_classes = (DjangoModelPermissions,)
+    permission_classes = (DjangoModelPermissions,)
 
     def get(self, request):
         try:

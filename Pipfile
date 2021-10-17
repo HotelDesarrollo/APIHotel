@@ -12,7 +12,7 @@ django = "==3.1.7"
 psycopg2 = "==2.8.6"
 djangorestframework = "*"
 django-cors-headers = "*"
-djangorestframework-jwt = "*"
+djangorestframework-simplejwt = "*"
 
 [requires]
 python_version = "3.7"

@@ -48,6 +48,7 @@ LOCAL_APPS = [
 THIRD_PARTY_APPS = [
     'corsheaders',
     'rest_framework',
+    'rest_framework_simplejwt'
 ]
 
 INSTALLED_APPS = INSTALLED_APPS + LOCAL_APPS + THIRD_PARTY_APPS
@@ -64,6 +65,18 @@ from datetime import timedelta
 #         'rest_framework.authentication.BasicAuthentication',
 #     ),
 # }
+
+REST_FRAMEWORK ={
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+SIMPLE_JWT = {
+    'USER_ID_FIELD': 'id',
+    'django':'django',
+    'ALGORITHM': 'HS512',
+}
+
 
 # JWT_AUTH = {
 #     'JWT_AUTH_HEADER_PREFIX': 'Bearer',

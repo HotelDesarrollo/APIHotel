@@ -6,8 +6,8 @@ from rest_framework.views import APIView
 from rest_framework_jwt import views as jwt_views
 
 from .models import Usuarios, Group
-from .serializers import gruposPermissionSerializer, usuariosSerializer, gruposSerializer, usuariosSerializerPOST
-
+from .serializers import MyTokenObtainPairSerializer, gruposPermissionSerializer, usuariosSerializer, gruposSerializer, usuariosSerializerPOST
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 class Class_query():
     def get_queryset(self):
@@ -106,10 +106,13 @@ class listado_UsuariosPorGrupos(APIView, Class_query):
 #             response.data.update(serialized_user.data)
 #         return response
 
-def jwt_response_payload_handler(token, user=None, request=None):
-    grupos = gruposPermissionSerializer(user.groups,  many=True)
-    grupos =grupos.data[0]['permissions']
-    return {
-        'token': token,
-        'grupos': grupos
-    }
+# def jwt_response_payload_handler(token, user=None, request=None):
+#     grupos = gruposPermissionSerializer(user.groups,  many=True)
+#     grupos =grupos.data[0]['permissions']
+#     return {
+#         'token': token,
+#         'grupos': grupos
+#     }
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
