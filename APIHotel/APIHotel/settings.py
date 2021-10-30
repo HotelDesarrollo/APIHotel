@@ -43,9 +43,12 @@ LOCAL_APPS = [
     'apps.alojamientos',
     'apps.habitaciones',
     'apps.usuarios',
+    'apps.websocket',
+    'apps.mymid'
 ]
 
 THIRD_PARTY_APPS = [
+    'channels',
     'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt'
@@ -53,7 +56,7 @@ THIRD_PARTY_APPS = [
 
 INSTALLED_APPS = INSTALLED_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
-from datetime import timedelta
+# from datetime import timedelta
 
 # REST_FRAMEWORK = {
 #     'DEFAULT_PERMISSION_CLASSES': (
@@ -74,6 +77,7 @@ REST_FRAMEWORK ={
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 }
+
 SIMPLE_JWT = {
     'USER_ID_FIELD': 'id',
     'django':'django',
@@ -126,6 +130,26 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'APIHotel.wsgi.application'
+# Channels
+ASGI_APPLICATION = 'APIHotel.routing.application'
+
+# Usar canales en memoria para evitar la dependencia a redis
+# gasta mas memoria en el servidor local
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
+
+# Usar Redis como backend de los canales
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [('localhost', 6379)],
+#         },
+#     },
+# }
 
 
 # Database
