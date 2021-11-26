@@ -82,7 +82,9 @@ SIMPLE_JWT = {
     'USER_ID_FIELD': 'id',
     'django':'django',
     'ALGORITHM': 'HS512',
-    'JWT_EXPIRATION_DELTA': timedelta(days=1),
+    # 'JWT_EXPIRATION_DELTA': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=12),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
 
@@ -136,21 +138,22 @@ ASGI_APPLICATION = 'APIHotel.routing.application'
 
 # Usar canales en memoria para evitar la dependencia a redis
 # gasta mas memoria en el servidor local
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }
-}
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels.layers.InMemoryChannelLayer"
+#     }
+# }
 
 # Usar Redis como backend de los canales
-# CHANNEL_LAYERS = {
-#     'default': {
-#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
-#         'CONFIG': {
-#             "hosts": [('localhost', 6379)],
-#         },
-#     },
-# }
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('localhost', 6379)],
+        },
+    },
+    'ROUTING': 'chantest.routing.channel_routing',
+}
 
 
 # Database

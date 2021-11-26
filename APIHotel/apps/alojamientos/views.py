@@ -28,7 +28,7 @@ class listado_alojamiento(APIView, Class_query):
             serializer = alojamientoSerializer(alojamientos, many=True)
             return Response(dict(alojamiento=serializer.data))
         except:
-            return Response(dict(alojamiento=[], detail="not found"))
+            return Response(dict(alojamientos=[], detail="not found"))
 
     def post(self, request):
         alojamiento = request.data.get('alojamiento')

@@ -1,16 +1,15 @@
-from channels.auth import AuthMiddlewareStack
+
 from channels.routing import ProtocolTypeRouter, URLRouter
 from django.urls.conf import path
-import APIHotel.routing
-from .channelsmiddleware import TokenAuthMiddleware
-from apps.websocket.consumers import FooConsumer
+from .channelsmiddleware import JWTChannelMiddleware
+from apps.websocket.consumers import Consumer
 
 application = ProtocolTypeRouter(
     {
         # (http->django views is added by default)
-        "websocket": TokenAuthMiddleware(
+        "websocket": JWTChannelMiddleware(
             URLRouter([
-                path("ws/", FooConsumer),
+                path("ws/", Consumer.as_asgi()),
             ])
         )
     }

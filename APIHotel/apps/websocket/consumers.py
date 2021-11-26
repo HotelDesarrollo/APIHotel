@@ -3,13 +3,15 @@ from channels.generic.websocket import AsyncJsonWebsocketConsumer
 
 class Consumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
-        if self.scope['user'].id:
+        user = await self.scope['user']
+        if  user.id:
             await self.accept()
             await self.channel_layer.group_add("cambios", self.channel_name)
-            print(f"Added {self.channel_name} channel to cambios")
+        print(f"Added {self.channel_name} channel to cambios")
 
     async def disconnect(self, close_code):
-        if self.scope['user'].id:
+        user = await self.scope['user']
+        if user.id:
             await self.channel_layer.group_discard("cambios", self.channel_name)
             print(f"Removed {self.channel_name} channel to cambios")
 
