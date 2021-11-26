@@ -3,8 +3,6 @@ from rest_framework.permissions import DjangoModelPermissions, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from rest_framework_jwt.authentication import JSONWebTokenAuthentication
-
 from .models import Alojamiento
 from .serializers import alojamientoSerializer
 

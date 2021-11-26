@@ -56,7 +56,7 @@ THIRD_PARTY_APPS = [
 
 INSTALLED_APPS = INSTALLED_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
-# from datetime import timedelta
+from datetime import timedelta
 
 # REST_FRAMEWORK = {
 #     'DEFAULT_PERMISSION_CLASSES': (
@@ -82,6 +82,7 @@ SIMPLE_JWT = {
     'USER_ID_FIELD': 'id',
     'django':'django',
     'ALGORITHM': 'HS512',
+    'JWT_EXPIRATION_DELTA': timedelta(days=1),
 }
 
 
