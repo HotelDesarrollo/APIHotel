@@ -22,7 +22,6 @@ class listado_alojamiento(APIView, Class_query):
 
     def get(self, request):
         try:
-
             alojamientos = Alojamiento.objects.filter(
                 eliminado="NO").order_by('id')
             serializer = alojamientoSerializer(alojamientos, many=True)

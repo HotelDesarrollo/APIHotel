@@ -112,7 +112,7 @@ class JWTChannelMiddleware:
         close_old_connections()
 
         # Get the token
-        token = parse_qs(scope["query_string"].decode("utf8"))["token"][0]
+        token = parse_qs(scope["query_string"].decode("utf8"))["access"][0]
 
         # Try to authenticate the user
         try:

@@ -25,7 +25,8 @@ SECRET_KEY = '%5#$n6*9*7#6dxzts959by^07dtu@6!&dvzx6@b2(d5_l78a&&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+# ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ['190.168.0.2', '192.168.0.22', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -58,7 +59,7 @@ INSTALLED_APPS = INSTALLED_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 from datetime import timedelta
 
-# REST_FRAMEWORK = {
+# # REST_FRAMEWORK = {
 #     'DEFAULT_PERMISSION_CLASSES': (
 #         'rest_framework.permissions.IsAuthenticated',
 #     ),
@@ -134,7 +135,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'APIHotel.wsgi.application'
 # Channels
-ASGI_APPLICATION = 'APIHotel.routing.application'
+# ASGI_APPLICATION = 'APIHotel.routing.application'
+ASGI_APPLICATION = 'APIHotel.asgi.application'
 
 # Usar canales en memoria para evitar la dependencia a redis
 # gasta mas memoria en el servidor local

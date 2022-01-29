@@ -9,13 +9,14 @@ from apps.usuarios.views import MyTokenObtainPairView
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
+    TokenVerifyView
 )
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('API/Alojamientos/', include('apps.alojamientos.urls')),
-    path('API/Habitaciones/', include('apps.habitaciones.urls')),
-    path('API/Usuarios/', include('apps.usuarios.urls')),
+    path('api/alojamientos/', include('apps.alojamientos.urls')),
+    path('api/habitaciones/', include('apps.habitaciones.urls')),
+    path('api/usuarios/', include('apps.usuarios.urls')),
 ]
 
 # urlpatterns += [
@@ -25,5 +26,6 @@ urlpatterns = [
 # ]
 urlpatterns += [
     path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh')
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 ]

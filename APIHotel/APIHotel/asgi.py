@@ -13,20 +13,20 @@ from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
 from django.conf.urls import url
 from django.core.asgi import get_asgi_application
-from APIHotel.apps.websocket.consumers import Consumer
-import APIHotel.routing
+from apps.websocket.consumers import Consumer
+from django.urls.conf import path
+from .channelsmiddleware import JWTChannelMiddleware
+
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'APIHotel.settings')
 
 application = ProtocolTypeRouter({
-    "http": get_asgi_application(),
-    "websocket": AuthMiddlewareStack(
-        URLRouter(
-            APIHotel.routing.websocket_urlpatterns = [
-              url("websocket/"), Consumer
-            ]
-        )
-    ),
+    # (http->django views is added by default)
+    "websocket": JWTChannelMiddleware(
+        URLRouter([
+            path("ws/", Consumer.as_asgi()),
+        ])
+    )
 })
 
 # application = get_asgi_application()

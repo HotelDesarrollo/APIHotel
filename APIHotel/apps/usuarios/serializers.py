@@ -72,11 +72,10 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token = super().get_token(user)
         # grupos = gruposPermissionSerializer(user.groups,  many=True)
         grupos = gruposSerializer(user.groups,  many=True)
-        print(grupos)
+        # print(grupos)
         grupos =grupos.data[0]['name']
         # Add custom claims
         token['name'] = user.username
         token['groups'] = grupos
-        # ...
-
+        print(token)
         return token
