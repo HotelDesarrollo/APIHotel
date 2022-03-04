@@ -45,7 +45,7 @@ LOCAL_APPS = [
     'apps.habitaciones',
     'apps.usuarios',
     'apps.websocket',
-    'apps.mymid'
+    # 'apps.mymid'
 ]
 
 THIRD_PARTY_APPS = [
@@ -151,7 +151,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('localhost', 6379)],
+            "hosts": [('localhost', 6380)],
         },
     },
     'ROUTING': 'chantest.routing.channel_routing',

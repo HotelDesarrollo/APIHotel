@@ -1,8 +1,11 @@
+import json
+from unittest import result
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.forms.models import model_to_dict
+from apps.websocket.signals import types_dict_convert
 
 from apps.habitaciones.models import Habitacion
 
@@ -13,7 +16,7 @@ def announce_new_habitacion(sender, instance, created, **kwargs):
         channel_layer = get_channel_layer()
         async_to_sync(channel_layer.group_send)(
             "cambios", dict(type="cambios", model="Habitacion",
-                            event="c", data=model_to_dict(instance))
+                            event="c", data=types_dict_convert)
         )
 
 
@@ -25,7 +28,10 @@ def announce_update_habitacion(sender, instance, created, **kwargs):
         channel_layer = get_channel_layer()
         async_to_sync(channel_layer.group_send)(
             "cambios", dict(type="cambios", model="Habitacion",
-                            event="u", data=model_to_dict(instance))
+                            event="u", data=types_dict_convert)
+            
+            # event="u", data=model_to_dict(instance))
+            # buscar como hacer que la instancia de model_to_dict convierta a decimal
         )
 
 

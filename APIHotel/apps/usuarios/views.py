@@ -24,7 +24,7 @@ class listado_usuario(APIView, Class_query):
             return Response(dict(usuario=[], detail="not found"))
 
     def post(self, request):
-        usuario = request.data.get('usuarios')
+        usuario = request.data.get('usuario')
         grupo = usuario.pop('tipo_usuario')
         print(grupo)
         serializer = usuariosSerializerPOST(data=usuario)
@@ -65,10 +65,13 @@ class detalle_usuario(APIView, Class_query):
 
 class listado_grupos(APIView, Class_query):
     def get(self, request):
-        # Listo los grupos con sus permisos asignados
-        grupos = Group.objects.all().order_by('id')
-        serializer = gruposSerializer(grupos, many=True)
-        return Response(dict(grupos_con_permisos=serializer.data, detail="not found"))
+        try:
+            # Listo los grupos con sus permisos asignados
+            grupos = Group.objects.all().order_by('id')
+            serializer = gruposSerializer(grupos, many=True)
+            return Response(dict(grupos=serializer.data))
+        except:
+                return Response(dict(grupos=[], detail="not found"))
 
 
 class listado_UsuariosPorGrupos(APIView, Class_query):
