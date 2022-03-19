@@ -24,8 +24,13 @@ def announce_new_habitacion(sender, instance, created, **kwargs):
 def announce_update_habitacion(sender, instance, created, **kwargs):
     if not created:
         print('se llamo al update')
-        dict_obj = types_dict_convert(instance)
         channel_layer = get_channel_layer()
+        if instance.eliminado == 'SI':
+            print('se llamo al soft-delete')
+            async_to_sync(channel_layer.group_send)(
+                "cambios", dict(type="cambios", model="Habitacion",
+                                event="d", data=types_dict_convert(instance))
+            )
         async_to_sync(channel_layer.group_send)(
             "cambios", dict(type="cambios", model="Habitacion",
                             event="u", data=types_dict_convert(instance))

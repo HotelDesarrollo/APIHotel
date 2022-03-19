@@ -24,6 +24,12 @@ def announce_update_alojamiento(sender, instance, created, **kwargs):
         print('se llamo al update')
         dict_obj = types_dict_convert(instance)
         channel_layer = get_channel_layer()
+        if instance.eliminado == 'SI':
+            print('se llamo al soft-delete')
+            async_to_sync(channel_layer.group_send)(
+                "cambios", dict(type="cambios", model="Alojamiento",
+                                event="d", data=types_dict_convert(instance))
+            )
         async_to_sync(channel_layer.group_send)(
             "cambios", dict(type="cambios", model="Alojamiento",
                             event="u", data=types_dict_convert(instance))
