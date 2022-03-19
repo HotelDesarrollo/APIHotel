@@ -21,7 +21,6 @@ class habitacionSerializer(serializers.ModelSerializer):
 
 class habitacionSerializerPOST(serializers.ModelSerializer):
 
-    nombre_alojamiento_id = serializers.CharField(read_only=True)
     class Meta:
         model = Habitacion
         fields = (  'id',
@@ -34,4 +33,6 @@ class habitacionSerializerPOST(serializers.ModelSerializer):
                     'nombre_alojamiento',
                     'nombre_alojamiento_id',
                 )
+    def create(self, validated_data):
+        return Habitacion.objects.create(**validated_data)
 
