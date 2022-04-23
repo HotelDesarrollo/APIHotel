@@ -1,7 +1,6 @@
 import datetime
 import decimal
 from uuid import UUID
-from xml.dom.minidom import Entity
 
 
 def types_dict_convert(o):
@@ -13,8 +12,6 @@ def types_dict_convert(o):
         return str(o)
     elif isinstance(o, datetime.date):
         return o.isoformat()
-    elif isinstance(o, Entity):
-        return str(o.id)
     else:
         return o.id if o.id is not None else str(o)
 

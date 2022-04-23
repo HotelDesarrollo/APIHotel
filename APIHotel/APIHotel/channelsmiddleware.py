@@ -141,4 +141,4 @@ class JWTChannelMiddleware:
 
         # Return the inner application directly and let it run everything else
 
-        return await self.inner(scope, receive, send)
+        return await self.inner(scope, receive, send)  # linea de posible error
