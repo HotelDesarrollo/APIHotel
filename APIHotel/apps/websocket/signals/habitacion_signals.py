@@ -5,7 +5,7 @@ from channels.layers import get_channel_layer
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.forms import model_to_dict
-from apps.habitaciones.serializers import habitacionSerializerPOST
+from apps.habitaciones.serializers import habitacionSerializerPOST, habitacionSerializer
 # from django.forms.models import types_dict_convert
 from apps.websocket.signals import types_dict_convert
 
@@ -15,8 +15,9 @@ from apps.habitaciones.models import Habitacion
 @receiver(post_save, sender=Habitacion)
 def announce_new_habitacion(sender, instance, created, **kwargs):
     if created:
-        serializer = habitacionSerializerPOST(instance)
+        serializer = habitacionSerializer(instance)
         instance = dict(habitaciones=serializer.data)
+        print (instance)
         instance = instance['habitaciones']
         print('se llamo al create')
         channel_layer = get_channel_layer()

@@ -1,0 +1,1 @@
+web: gunicorn APIHotel.wsgi --log-file -

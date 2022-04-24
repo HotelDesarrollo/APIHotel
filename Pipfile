@@ -16,6 +16,9 @@ djangorestframework-simplejwt = "*"
 django-filter = "*"
 channels = "*"
 channels-redis = "*"
+gunicorn = "*"
+dj-database-url = "*"
+python-decouple = "*"
 
 [requires]
 python_version = "3.7"
