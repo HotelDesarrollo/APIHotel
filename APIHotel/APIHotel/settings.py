@@ -28,7 +28,7 @@ SECRET_KEY = '%5#$n6*9*7#6dxzts959by^07dtu@6!&dvzx6@b2(d5_l78a&&'
 DEBUG = False
 
 # ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://hotel-api-django.herokuapp.com/', '*']
 
 
 # Application definition
