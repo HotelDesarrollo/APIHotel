@@ -28,7 +28,7 @@ SECRET_KEY = '%5#$n6*9*7#6dxzts959by^07dtu@6!&dvzx6@b2(d5_l78a&&'
 DEBUG = False
 
 # ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
-ALLOWED_HOSTS = ['https://hotel-api-django.herokuapp.com/', '*']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -166,12 +166,11 @@ CHANNEL_LAYERS = {
 import dj_database_url
 from decouple import config
 
-# DATABASES = {
-#     'default': dj_database_url.config(
-#         default=config('DATA_BASE_URL')
-#     )
-# }
-
+DATABASES = {
+    'default': dj_database_url.config(
+        default=config('DATA_BASE_URL')
+    )
+}
 
 # DATABASES = {
 #     'default': {
@@ -186,17 +185,6 @@ from decouple import config
 #         }
 #     }
 # }
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dh8k206k5ukc2',
-        'USER': 'qkmbzskptmkfvj',
-        'PASSWORD': 'e1246532820635c0e33e4af6b2e21a9da645a69549dca5b01be25a599c6c370d',
-        'HOST': 'ec2-3-209-124-113.compute-1.amazonaws.com',
-        'PORT': '5432'
-    }
-}
 
 
 # Password validation
