@@ -1,14 +1,10 @@
 [[source]]
-name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
-
-[dev-packages]
-pylint = "*"
-autopep8 = "*"
+name = "pypi"
 
 [packages]
-django = "==3.1.7"
+django = "==3.2.13"
 psycopg2 = "==2.8.6"
 djangorestframework = "*"
 django-cors-headers = "*"
@@ -20,8 +16,15 @@ gunicorn = "*"
 dj-database-url = "*"
 python-decouple = "*"
 psycopg2-binary = "*"
-twisted = "*"
 whitenoise = "*"
+twisted = "*"
+pywin32 = "*"
+"zope.interface" = "*"
+setuptools = "*"
+
+[dev-packages]
+pylint = "*"
+autopep8 = "*"
 
 [requires]
 python_version = "3.7"
