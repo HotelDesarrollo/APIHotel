@@ -11,7 +11,7 @@ channels==3.0.4
 channels-redis==3.4.0
 colorama==0.4.4
 constantly==15.1.0
-cryptography==36.0.2
+cryptography==37.0.1
 daphne==3.0.2
 dj-database-url==0.5.0
 Django==3.1.7
@@ -30,8 +30,10 @@ isort==5.10.1
 lazy-object-proxy==1.7.1
 mccabe==0.6.1
 msgpack==1.0.3
+Pillow==9.1.0
 platformdirs==2.5.1
 psycopg2==2.8.6
+psycopg2-binary==2.9.3
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycodestyle==2.8.0
@@ -52,6 +54,7 @@ twisted-iocpsupport==1.0.2
 txaio==22.2.1
 typed-ast==1.5.2
 typing-extensions==4.2.0
+whitenoise==6.0.0
 wrapt==1.13.3
 zipp==3.6.0
 zope.interface==5.4.0
