@@ -18,9 +18,9 @@ python-decouple = "*"
 psycopg2-binary = "*"
 whitenoise = "*"
 twisted = "*"
-pywin32 = "*"
 "zope.interface" = "*"
 setuptools = "*"
+pypiwin32 = "*"
 
 [dev-packages]
 pylint = "*"
