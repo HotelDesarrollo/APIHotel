@@ -20,7 +20,7 @@ whitenoise = "*"
 twisted = "*"
 "zope.interface" = "*"
 setuptools = "*"
-pypiwin32 = "*"
+pywin32 = "==303"
 
 [dev-packages]
 pylint = "*"
